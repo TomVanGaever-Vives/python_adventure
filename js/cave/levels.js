@@ -58,13 +58,33 @@
     return corridor(s);
   }
 
+  /** Gang naar rechts (lengte d), 2 omlaag, en terug naar links naar de uitgang. */
+  function uTurn(d) {
+    return [
+      '#'.repeat(d + 3),
+      '#H' + '.'.repeat(d - 1) + '*#',
+      '#' + '#'.repeat(d) + '.#',
+      '#E' + '.'.repeat(d) + '#',
+      '#'.repeat(d + 3),
+    ];
+  }
+
+  /** Gang naar rechts (lengte d), 1 omlaag, en dan 2 x d naar links. */
+  function doubleBack(d) {
+    const w = 2 * d + 3, s = d + 1;
+    const top = '#'.repeat(s) + 'H' + '.'.repeat(d - 1) + '*#';
+    const bottom = '#E' + '.'.repeat(2 * d) + '#';
+    return ['#'.repeat(w), top, bottom, '#'.repeat(w)];
+  }
+
   const chapters = [
     { id: 1, icon: '👣', title: 'Hoofdstuk 1 – Commando\'s', sub: 'Geef je held één voor één opdrachten.' },
     { id: 2, icon: '🔢', title: 'Hoofdstuk 2 – Argumenten', sub: 'Een getal tussen de haakjes: hoeveel stappen?' },
     { id: 3, icon: '🔁', title: 'Hoofdstuk 3 – For-lussen', sub: 'Herhaal stukjes code zonder ze opnieuw te typen.' },
-    { id: 4, icon: '🔀', title: 'Hoofdstuk 4 – Als … anders (if/else)', sub: 'Laat je held kijken en zelf beslissen.' },
-    { id: 5, icon: '♾️', title: 'Hoofdstuk 5 – While-lussen', sub: 'Herhaal zolang iets waar is.' },
-    { id: 6, icon: '🧩', title: 'Hoofdstuk 6 – Eigen functies (def)', sub: 'Maak je eigen commando\'s.' },
+    { id: 7, icon: '📦', title: 'Hoofdstuk 4 – Variabelen', sub: 'Onthoud een getal in een doosje met een naam.' },
+    { id: 4, icon: '🔀', title: 'Hoofdstuk 5 – Als … anders (if/else)', sub: 'Laat je held kijken en zelf beslissen.' },
+    { id: 5, icon: '♾️', title: 'Hoofdstuk 6 – While-lussen', sub: 'Herhaal zolang iets waar is.' },
+    { id: 6, icon: '🧩', title: 'Hoofdstuk 7 – Eigen functies (def)', sub: 'Maak je eigen commando\'s.' },
   ];
 
   const MOVES = ['move_right()', 'move_left()', 'move_up()', 'move_down()'];
@@ -254,6 +274,53 @@
         '#H.......E#',
         '###########',
       ]],
+    },
+    {
+      id: 'c17', chapter: 7, title: 'Meet de gang',
+      story: 'Kai heeft een meetlint! De gang is telkens anders lang, en daarna moet Kai precies even ver terug.',
+      goal: 'Raap het kristal en bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 4 regels</b>.',
+      concept: {
+        title: 'Een variabele',
+        html: 'Een <b>variabele</b> is een doosje met een naam waarin je iets bewaart. <code>afstand = distance_right()</code> meet hoeveel vakjes Kai naar rechts kan lopen en stopt dat getal in het doosje <code>afstand</code>. Later gebruik je de naam om het getal terug te halen.',
+        example: 'afstand = distance_right()\nmove_right(afstand)',
+      },
+      commands: ['afstand = distance_right()', 'move_right(afstand)', 'move_left(afstand)', 'move_down(2)', 'distance_right()'],
+      starter: 'afstand = distance_right()\n',
+      maxLines: 4,
+      hints: ['Meet eerst, en loop dan <code>move_right(afstand)</code>.', 'Na <code>move_down(2)</code> moet Kai even ver terug naar links: <code>move_left(afstand)</code>. Rechts meten lukt dan niet meer, maar het doosje onthoudt het getal!'],
+      variantTip: 'meet de gang met <code>distance_right()</code> en onthoud het getal in een variabele.',
+      maps: [uTurn(3), uTurn(5), uTurn(8)],
+    },
+    {
+      id: 'c18', chapter: 7, title: 'De groeiende trap',
+      story: 'Elke trede van deze trap is één vakje langer dan de vorige.',
+      goal: 'Raap alle kristallen en ga naar de uitgang. Bonus: <b>maximaal 5 regels</b>.',
+      concept: {
+        title: 'Een variabele veranderen',
+        html: 'De waarde in een variabele mag veranderen. <code>stap = stap + 1</code> betekent: neem wat in <code>stap</code> zit, tel er 1 bij en stop het resultaat terug in <code>stap</code>. Zo wordt de stap in een lus telkens groter.',
+        example: 'stap = 1\nmove_right(stap)\nstap = stap + 1\nmove_right(stap)',
+      },
+      commands: ['stap = 1', 'for i in range(4):\n    ', 'move_right(stap)', 'move_down()', 'stap = stap + 1'],
+      starter: 'stap = 1\n',
+      maxLines: 5,
+      hints: ['De treden zijn 1, 2, 3 en 4 vakjes lang. Na elke trede gaat Kai 1 omlaag.', 'In een for-lus die 4 keer herhaalt: <code>move_right(stap)</code>, <code>move_down()</code>, <code>stap = stap + 1</code>.'],
+      maps: [pathMap('RDRRDRRRDRRRRD', [1, 4, 8, 13])],
+    },
+    {
+      id: 'c19', chapter: 7, title: 'Dubbel zo ver',
+      story: 'De onderste gang is twee keer zo lang als de bovenste. Kan Kai rekenen?',
+      goal: 'Raap het kristal en bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 4 regels</b>.',
+      concept: {
+        title: 'Rekenen met variabelen',
+        html: 'Met variabelen kan je rekenen: <code>+</code> optellen, <code>-</code> aftrekken, <code>*</code> vermenigvuldigen. <code>move_left(afstand * 2)</code> loopt twee keer zo ver als wat in <code>afstand</code> zit.',
+        example: 'afstand = distance_right()\nterug = afstand * 2',
+      },
+      commands: ['afstand = distance_right()', 'move_right(afstand)', 'move_down()', 'move_left(afstand * 2)'],
+      starter: '',
+      maxLines: 4,
+      hints: ['Meet de bovenste gang en loop naar het kristal.', 'Ga 1 omlaag en dan <code>afstand * 2</code> naar links.'],
+      variantTip: 'meet de gang met <code>distance_right()</code> en onthoud het getal in een variabele.',
+      maps: [doubleBack(2), doubleBack(3), doubleBack(5)],
     },
     {
       id: 'c10', chapter: 4, title: 'Springen of lopen?',

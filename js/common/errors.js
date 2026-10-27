@@ -127,7 +127,7 @@
         text = 'Python kent <code>' + escapeHtml(name) + '</code> niet.';
         const s = suggest(name, knownNames);
         if (s && s !== name) text += ' Bedoel je misschien <code>' + escapeHtml(s) + '</code>?';
-        else if (/^[a-zA-Z]+$/.test(name) && knownNames.length) text += ' Controleer de spelling. Is het een tekst? Zet hem dan tussen aanhalingstekens: <code>"' + escapeHtml(name) + '"</code>.';
+        else if (/^[a-zA-Z]+$/.test(name) && knownNames.length) text += ' Controleer de spelling. Is het een <b>variabele</b>? Geef ze dan eerst een waarde, bv. <code>' + escapeHtml(name) + ' = 3</code>, vóór je ze gebruikt. Is het een tekst? Zet hem dan tussen aanhalingstekens: <code>"' + escapeHtml(name) + '"</code>.';
         if (/^(true|false|none)$/.test(name)) text += ' Schrijf <code>' + name.charAt(0).toUpperCase() + name.slice(1) + '</code> met een hoofdletter.';
         break;
       }

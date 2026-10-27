@@ -44,6 +44,14 @@
 
     isWall(x, y) { return this.cell(x, y) === '#'; }
     isHole(x, y) { return this.cell(x, y) === 'O'; }
+    /** Aantal vakjes dat Kai in een richting kan lopen tot een muur of gat. */
+    distance(dir) {
+      const d = DIRS[dir];
+      let n = 0, x = this.hero.x + d[0], y = this.hero.y + d[1];
+      while (!this.isWall(x, y) && !this.isHole(x, y)) { n++; x += d[0]; y += d[1]; }
+      return n;
+    }
+
     atExit() { return this.cell(this.hero.x, this.hero.y) === 'E'; }
 
     look(dir, what) {

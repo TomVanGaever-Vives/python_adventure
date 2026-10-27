@@ -16,11 +16,11 @@
     'jump_right()': 'spring over het vakje rechts', 'jump_left()': 'spring over het vakje links',
     'wall_right()': 'is er rechts een muur?', 'wall_left()': 'is er links een muur?', 'wall_up()': 'is er boven een muur?', 'wall_down()': 'is er onder een muur?',
     'hole_right()': 'is er rechts een gat?', 'hole_left()': 'is er links een gat?', 'hole_up()': 'is er boven een gat?', 'hole_down()': 'is er onder een gat?',
-    'at_exit()': 'staat Kai op de uitgang?', 'say("Hallo")': 'Kai zegt iets', 'print("Hallo")': 'schrijf tekst in de uitvoer',
+    'at_exit()': 'staat Kai op de uitgang?', 'distance_right()': 'hoeveel vakjes vrij naar rechts?', 'say("Hallo")': 'Kai zegt iets', 'print("Hallo")': 'schrijf tekst in de uitvoer',
   };
 
   const API_NAMES = ['move_right', 'move_left', 'move_up', 'move_down', 'jump_right', 'jump_left',
-    'wall_right', 'wall_left', 'wall_up', 'wall_down', 'hole_right', 'hole_left', 'hole_up', 'hole_down', 'at_exit', 'say'];
+    'wall_right', 'wall_left', 'wall_up', 'wall_down', 'hole_right', 'hole_left', 'hole_up', 'hole_down', 'at_exit', 'distance_right', 'say'];
   const PY_NAMES = ['print', 'range', 'for', 'while', 'if', 'else', 'elif', 'def', 'not', 'and', 'or', 'True', 'False', 'in', 'str', 'int', 'len', 'return'];
 
   const $ = id => document.getElementById(id);
@@ -128,6 +128,7 @@
     });
     b.jump_right = function () { noArgs('jump_right', Array.from(arguments)); return doJump('right'); };
     b.jump_left = function () { noArgs('jump_left', Array.from(arguments)); return doJump('left'); };
+    b.distance_right = function () { noArgs('distance_right', Array.from(arguments)); return world.distance('right'); };
     b.at_exit = function () { noArgs('at_exit', Array.from(arguments)); return world.atExit(); };
     b.say = function (text) {
       const ms = Math.max(700, stepMs() * 3);
@@ -301,7 +302,7 @@
     }
     const e = result.error;
     if (level.maps.length > 1 && result.variant > 0) {
-      e.text = '<b>Op kaart ' + (result.variant + 1) + '</b> lukte het niet. ' + e.text + ' Je code moet op elke kaart werken: laat Kai zelf kijken met <code>if</code> of <code>while</code>.';
+      e.text = '<b>Op kaart ' + (result.variant + 1) + '</b> lukte het niet. ' + e.text + ' Je code moet op elke kaart werken: ' + (level.variantTip || 'laat Kai zelf kijken met <code>if</code> of <code>while</code>.');
     }
     UI.showError($('message'), e);
     if (e.line) editor.markErrorLine(e.line);

@@ -36,10 +36,11 @@ Je kan de site ook zonder internet gebruiken: download de repository als ZIP, pa
 
 ---
 
-## Deel 1 – Grot-avontuur (16 levels)
+## Deel 1 – Grot-avontuur (19 levels)
 
 **Commando's:** `move_right()`, `move_left()`, `move_up()`, `move_down()` (met optioneel aantal stappen, bv. `move_right(3)`),
 `jump_right()` / `jump_left()` (springt over één vakje), `say("tekst")`, `print()`.
+**Meten:** `distance_right()` geeft het aantal vrije vakjes naar rechts (tot een muur of gat).
 **Sensoren:** `wall_right()`, `wall_left()`, `wall_up()`, `wall_down()`, `hole_right()`, `hole_left()`, `hole_up()`, `hole_down()`, `at_exit()`.
 
 | # | Level | Hoofdstuk | Leerdoel | Bonus |
@@ -53,15 +54,18 @@ Je kan de site ook zonder internet gebruiken: download de repository als ZIP, pa
 | 7 | De trap | For-lussen | `for i in range(4):` en inspringen | 4 |
 | 8 | De gatenrij | For-lussen | Een patroon herkennen en herhalen | 4 |
 | 9 | De kristalkam | For-lussen | Lus met meerdere commando's en argumenten | 4 |
-| 10 | Springen of lopen? | If / else | `if hole_right(): … else: …` – 3 kaarten | 5 |
-| 11 | Links of rechts? | If / else | Sensor `wall_left()` – 2 kaarten | 5 |
-| 12 | Hoe ver nog? | While | `while not at_exit():` – 3 kaarten met andere lengte | 2 |
-| 13 | Gaten onderweg | While | `if` binnen `while`, dubbele inspringing – 3 kaarten | 5 |
-| 14 | De trap op | While | `while` + `if wall_right()` – 3 verschillende trappen | 5 |
-| 15 | Rotsen beklimmen | Functies | Eigen commando maken met `def klim():` | 10 |
-| 16 | Bergen van elke maat | Functies | Functie met parameter: `def berg(hoogte):` | 8 |
+| 10 | Meet de gang | Variabelen | Variabele maken: `afstand = distance_right()` – 3 kaarten | 4 |
+| 11 | De groeiende trap | Variabelen | Variabele veranderen: `stap = stap + 1` in een lus | 5 |
+| 12 | Dubbel zo ver | Variabelen | Rekenen met variabelen: `afstand * 2` – 3 kaarten | 4 |
+| 13 | Springen of lopen? | If / else | `if hole_right(): … else: …` – 3 kaarten | 5 |
+| 14 | Links of rechts? | If / else | Sensor `wall_left()` – 2 kaarten | 5 |
+| 15 | Hoe ver nog? | While | `while not at_exit():` – 3 kaarten met andere lengte | 2 |
+| 16 | Gaten onderweg | While | `if` binnen `while`, dubbele inspringing – 3 kaarten | 5 |
+| 17 | De trap op | While | `while` + `if wall_right()` – 3 verschillende trappen | 5 |
+| 18 | Rotsen beklimmen | Functies | Eigen commando maken met `def klim():` | 10 |
+| 19 | Bergen van elke maat | Functies | Functie met parameter: `def berg(hoogte):` | 8 |
 
-Levels met `if`/`while` worden getest op **meerdere varianten van de kaart**: de code moet op elke kaart werken,
+Levels met variabelen, `if` en `while` worden getest op **meerdere varianten van de kaart**: de code moet op elke kaart werken,
 dus een vaste reeks commando's werkt niet. Na een geslaagde eerste kaart worden de andere kaarten snel nagespeeld.
 
 ## Deel 2 – micro:bit-lab (10 levels + vrije speelzone)
