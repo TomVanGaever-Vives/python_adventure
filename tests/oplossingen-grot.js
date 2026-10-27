@@ -1,0 +1,19 @@
+// Voorbeeldoplossingen voor het Grot-avontuur (voor de leerkracht en de automatische test).
+module.exports = {
+  c1: 'move_right()\nmove_right()\nmove_right()\nmove_right()\n',
+  c2: 'move_right()\nmove_right()\nmove_down()\nmove_down()\nmove_right()\nmove_right()\n',
+  c3: 'move_right()\nmove_right()\nmove_right()\nmove_down()\nmove_down()\nmove_right()\nmove_left()\nmove_left()\nmove_left()\nmove_left()\n',
+  c4: 'move_right()\njump_right()\njump_right()\nmove_right()\n',
+  c5: 'move_right(8)\nmove_down(2)\nmove_left(8)\n',
+  c6: 'move_right(8)\nmove_down(6)\nmove_left(8)\nmove_up(4)\nmove_right(6)\nmove_down(2)\nmove_left(4)\n',
+  c7: 'for i in range(4):\n    move_right()\n    move_down()\nmove_right()\n',
+  c8: 'for i in range(4):\n    move_right()\n    jump_right()\nmove_right()\n',
+  c9: 'for i in range(4):\n    move_up(2)\n    move_down(2)\n    move_right(2)\n',
+  c10: 'for i in range(4):\n    if hole_right():\n        jump_right()\n    else:\n        move_right(2)\n',
+  c11: 'move_down(3)\nif wall_left():\n    move_right(2)\nelse:\n    move_left(2)\n',
+  c12: 'while not at_exit():\n    move_right()\n',
+  c13: 'while not at_exit():\n    if hole_right():\n        jump_right()\n    else:\n        move_right()\n',
+  c14: 'while not at_exit():\n    if wall_right():\n        move_up()\n    else:\n        move_right()\n',
+  c15: 'def klim():\n    move_up()\n    move_right(2)\n    move_down()\n\nmove_right()\nklim()\nmove_right(2)\nklim()\nklim()\nmove_right(2)\n',
+  c16: 'def berg(hoogte):\n    move_up(hoogte)\n    move_right(hoogte)\n    move_down(hoogte)\n    move_right(hoogte)\n\nberg(1)\nberg(3)\nberg(2)\n',
+};

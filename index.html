@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Avontuur</title>
+  <meta name="description" content="Leer Python programmeren met een grot-avontuur en een virtuele micro:bit. Voor het 5e en 6e leerjaar.">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">🐍 Python Avontuur</a>
+  </header>
+  <main class="home">
+    <h1>Leer echt programmeren in Python!</h1>
+    <p class="lead">Je kent al blokken uit Scratch of MakeCode. Nu typ je zelf code, net als echte programmeurs. Kies je avontuur:</p>
+
+    <div class="worlds">
+      <a class="world-card cave" href="grot.html">
+        <div class="art">⛏️💎</div>
+        <div class="body">
+          <h2>Deel 1: Grot-avontuur</h2>
+          <p>Stuur ontdekkingsreiziger Kai door donkere grotten. Verzamel kristallen, spring over gaten en vind de uitgang.
+            Je leert commando's, lussen, <code>if</code>/<code>else</code>, <code>while</code> en eigen functies.</p>
+          <div class="progress" id="prog-cave"></div>
+        </div>
+      </a>
+      <a class="world-card mb" href="microbit.html">
+        <div class="art">🔲✨</div>
+        <div class="body">
+          <h2>Deel 2: micro:bit-lab</h2>
+          <p>Programmeer een virtuele micro:bit met echte MicroPython: hartjes, namen, een dobbelsteen, een waterpas…
+            En zet je programma daarna op een <b>echte micro:bit</b>!</p>
+          <div class="progress" id="prog-mb"></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="tips">
+      <h3>💡 Handig om te weten</h3>
+      <ul>
+        <li>Je code en je sterren worden <b>op deze computer</b> bewaard (in de browser). Je hoeft niet in te loggen.</li>
+        <li>Elk level heeft twee doelen: <b>✔ gehaald</b> en een <b>★ bonus</b> als het met weinig regels code lukt.</li>
+        <li>Inspringen doe je met de <b>Tab</b>-toets (4 spaties). <b>Ctrl+Enter</b> start je programma.</li>
+        <li>Vast? Klik op <b>💡 Hint</b>. Lees de foutmelding: ze zegt op welke regel het misloopt.</li>
+      </ul>
+    </div>
+  </main>
+  <script src="js/common/ui.js"></script>
+  <script>
+    (function () {
+      function show(game, id, total) {
+        const p = Store.progress(game);
+        const done = Object.keys(p).filter(k => p[k].done).length;
+        const bonus = Object.keys(p).filter(k => p[k].bonus).length;
+        document.getElementById(id).textContent = done ? '✔ ' + done + ' / ' + total + ' gehaald · ★ ' + bonus : 'Nog niet begonnen – start bij level 1!';
+      }
+      show('cave', 'prog-cave', 16);
+      show('microbit', 'prog-mb', 10);
+    })();
+  </script>
+</body>
+</html>

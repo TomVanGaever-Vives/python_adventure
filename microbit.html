@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>micro:bit-lab – Python Avontuur</title>
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="theme-mb">
+  <header class="topbar">
+    <a class="brand" href="index.html">🐍 Python Avontuur</a>
+    <span class="topbar-title">🔲 micro:bit-lab</span>
+    <span class="spacer"></span>
+    <button class="btn small" id="btn-map">🗺 Levelkaart</button>
+  </header>
+
+  <main id="map-view" class="map-view" hidden>
+    <div class="map-intro">
+      <h1>🔲 micro:bit-lab</h1>
+      <p>Programmeer een <b>virtuele micro:bit</b> met echte MicroPython-code. Elk level wordt automatisch nagekeken.
+        Daarna kan je je programma ook op een <b>echte micro:bit</b> zetten.</p>
+      <p class="map-progress" id="map-progress"></p>
+    </div>
+    <div id="level-map"></div>
+    <p class="map-footer"><button class="btn small ghost" id="btn-reset-all">Voortgang wissen</button></p>
+  </main>
+
+  <main id="level-view" class="level-view" hidden>
+    <section class="col-left">
+      <div class="level-head">
+        <div class="lv-nav">
+          <button class="btn small ghost" id="btn-prev" title="Vorig level">◀</button>
+          <span class="lv-chapter" id="lv-chapter"></span>
+          <button class="btn small ghost" id="btn-next" title="Volgend level">▶</button>
+          <button class="btn small ghost" id="btn-map2">🗺 Alle levels</button>
+        </div>
+        <h1 id="lv-title"></h1>
+        <p class="story" id="lv-story"></p>
+        <p class="goal" id="lv-goal"></p>
+      </div>
+      <div class="palette-label">Klik om in te voegen:</div>
+      <div class="palette" id="palette"></div>
+      <div class="toolbar">
+        <button class="btn primary big" id="btn-run" title="Ctrl+Enter">▶ Start</button>
+        <button class="btn danger" id="btn-stop">■ Stop</button>
+        <button class="btn" id="btn-check">✔ Controleer</button>
+        <span class="spacer"></span>
+        <button class="btn" id="btn-hint">💡 Hint</button>
+      </div>
+      <div class="editor" id="editor"></div>
+      <div class="under-editor">
+        <span id="line-info" class="line-info">Regels: <b id="line-count">0</b> · bonus bij max. <b id="bonus-max">0</b></span>
+        <button class="linkbtn" id="btn-starter">startcode terugzetten</button>
+      </div>
+      <div id="message" class="message info"></div>
+    </section>
+    <section class="col-right">
+      <div class="mb-stage">
+        <div class="mb-board-wrap">
+          <div class="mb-board" id="mb-board">
+            <div class="mb-logo" id="mb-logo" title="Logo (aanraakbaar op V2)"></div>
+            <span class="mb-label mb-label-a">A</span>
+            <span class="mb-label mb-label-b">B</span>
+            <button class="mb-btn mb-btn-a" id="mb-btn-a" title="Knop A (of toets A)">A</button>
+            <button class="mb-btn mb-btn-b" id="mb-btn-b" title="Knop B (of toets B)">B</button>
+            <div class="mb-leds"></div>
+            <div class="mb-edge"></div>
+          </div>
+        </div>
+        <div class="mb-controls">
+          <div class="mb-ctrl">
+            <h4>Bewegen</h4>
+            <button class="btn" id="btn-shake">🫨 Schud</button>
+            <div class="tilt-pad" style="margin-top:6px">
+              <span></span><button data-tilt="up" title="Kantel naar achter">⬆</button><span></span>
+              <button data-tilt="left" title="Kantel naar links">⬅</button><button data-tilt="flat" class="active" title="Plat">⏺</button><button data-tilt="right" title="Kantel naar rechts">➡</button>
+              <span></span><button data-tilt="down" title="Kantel naar voor">⬇</button><span></span>
+            </div>
+          </div>
+          <div class="mb-ctrl">
+            <h4>Sensoren</h4>
+            <label>🌡 Temperatuur: <b id="temp-val">21 °C</b><input type="range" id="temp" min="-10" max="45" value="21"></label>
+            <label>☀️ Licht<input type="range" id="light" min="0" max="255" value="120"></label>
+            <p class="mb-help">Knoppen: klik op A/B of druk op de toetsen A en B.</p>
+          </div>
+        </div>
+        <div class="mb-real">
+          <button class="btn primary" id="btn-hex" title="Download een .hex-bestand voor micro:bit V1 en V2">⬇ Zet op micro:bit</button>
+          <button class="btn" id="btn-copy" title="Kopieer je code voor python.microbit.org">📋 Kopieer voor python.microbit.org</button>
+        </div>
+      </div>
+      <details class="concept" open>
+        <summary>📘 Nieuw: <span id="concept-title"></span></summary>
+        <div id="concept-html"></div>
+        <pre class="example" id="concept-ex"></pre>
+      </details>
+      <div class="console-wrap">
+        <div class="console-title">Uitvoer van <code>print()</code></div>
+        <pre class="console" id="console"></pre>
+      </div>
+    </section>
+  </main>
+
+  <script src="vendor/skulpt/skulpt.min.js"></script>
+  <script src="vendor/skulpt/skulpt-stdlib.js"></script>
+  <script src="vendor/codemirror/lib/codemirror.js"></script>
+  <script src="vendor/codemirror/mode/python/python.js"></script>
+  <script src="vendor/codemirror/addon/edit/matchbrackets.js"></script>
+  <script src="vendor/codemirror/addon/edit/closebrackets.js"></script>
+  <script src="vendor/codemirror/addon/selection/active-line.js"></script>
+  <script src="js/common/pyrunner.js"></script>
+  <script src="js/common/errors.js"></script>
+  <script src="js/common/ui.js"></script>
+  <script src="js/microbit/font.js"></script>
+  <script src="js/microbit/pymodule.js"></script>
+  <script src="js/microbit/host.js"></script>
+  <script src="js/microbit/hex.js"></script>
+  <script src="js/microbit/levels.js"></script>
+  <script src="js/microbit/app.js"></script>
+</body>
+</html>
