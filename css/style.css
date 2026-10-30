@@ -122,6 +122,13 @@ code { background: var(--accent-soft); padding: 0 4px; border-radius: 4px; font-
 .level-tile.done { border-color: #9fdcbc; background: #f3fcf7; }
 .level-tile.next { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 .level-tile.free .tile-num { color: var(--gold); }
+.tile-badge { font-size: 11px; font-weight: 700; border-radius: 999px; padding: 0 8px; background: var(--accent-soft); color: var(--accent); }
+.level-tile.challenge { border-color: #f3b27a; background: #fff6ee; }
+.level-tile.challenge .tile-num { color: #d9631c; }
+.level-tile.challenge .tile-badge { background: #ffe1c9; color: #b4500f; }
+.level-tile.challenge.done { border-color: #9fdcbc; }
+.is-challenge .goal { border-left-color: #e8762b; background: #fff6ee; }
+.is-selfwrite .palette-label { font-size: 14px; color: var(--ink); background: var(--warn-soft); border-radius: 8px; padding: 6px 10px; margin: 6px 0; }
 .map-footer { margin-top: 40px; text-align: right; }
 
 /* ---------- Levelscherm ---------- */

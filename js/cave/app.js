@@ -150,12 +150,16 @@
     const idx = LEVELS.indexOf(lv);
     const ch = CHAPTERS.find(c => c.id === lv.chapter);
     $('lv-chapter').textContent = ch.icon + ' ' + ch.title;
-    $('lv-title').textContent = 'Level ' + (idx + 1) + ': ' + lv.title;
+    $('lv-title').textContent = 'Level ' + (idx + 1) + ': ' + (lv.challenge ? '🔥 ' : lv.selfWrite ? '✍️ ' : '') + lv.title;
+    $('level-view').classList.toggle('is-challenge', !!lv.challenge);
+    $('level-view').classList.toggle('is-selfwrite', !!lv.selfWrite);
+    $('concept-prefix').textContent = lv.challenge ? '🔥 Uitdaging:' : lv.selfWrite ? '✍️ Zelf schrijven:' : '📘 Nieuw:';
+    $('concept-ex').hidden = !lv.concept.example;
     $('lv-story').textContent = lv.story;
     $('lv-goal').innerHTML = '🎯 ' + lv.goal;
     $('concept-title').textContent = lv.concept.title;
     $('concept-html').innerHTML = lv.concept.html;
-    $('concept-ex').textContent = lv.concept.example;
+    $('concept-ex').textContent = lv.concept.example || '';
     $('bonus-max').textContent = lv.maxLines;
     renderPalette(lv);
     const saved = Store.code(GAME, lv.id);
@@ -175,6 +179,9 @@
   function renderPalette(lv) {
     const pal = $('palette');
     pal.innerHTML = '';
+    $('palette-label').innerHTML = lv.selfWrite
+      ? '✍️ <b>Zelf schrijven:</b> hier zijn geen klikknoppen en geen voorbeeld. Jij typt alle code zelf!'
+      : 'Klik om in te voegen:';
     lv.commands.forEach(c => {
       const label = c.split('\n')[0].replace(/\s+$/, '');
       const info = COMMAND_INFO[c] || (c.startsWith('for') ? 'herhaal' : c.startsWith('while') ? 'herhaal zolang' : c.startsWith('if') ? 'als … anders' : c.startsWith('def') ? 'maak een functie' : '');

@@ -36,34 +36,51 @@ Je kan de site ook zonder internet gebruiken: download de repository als ZIP, pa
 
 ---
 
-## Deel 1 – Grot-avontuur (19 levels)
+## Deel 1 – Grot-avontuur (31 levels in 6 hoofdstukken)
 
 **Commando's:** `move_right()`, `move_left()`, `move_up()`, `move_down()` (met optioneel aantal stappen, bv. `move_right(3)`),
 `jump_right()` / `jump_left()` (springt over één vakje), `say("tekst")`, `print()`.
 **Meten:** `distance_right()` geeft het aantal vrije vakjes naar rechts (tot een muur of gat).
 **Sensoren:** `wall_right()`, `wall_left()`, `wall_up()`, `wall_down()`, `hole_right()`, `hole_left()`, `hole_up()`, `hole_down()`, `at_exit()`.
 
+Elk hoofdstuk eindigt met twee speciale levels:
+
+- **✍️ Zelf schrijven** – geen klikknoppen, geen voorbeeldcode en een leeg codevenster: de leerling typt alle code zelf.
+- **🔥 Uitdaging** – een extra moeilijk level dat de leerstof van het hoofdstuk combineert of een stapje verder gaat.
+
 | # | Level | Hoofdstuk | Leerdoel | Bonus |
 |---|-------|-----------|----------|-------|
-| 1 | Eerste stappen | Commando's | Een commando schrijven: naam + haakjes, één per regel | 4 regels |
-| 2 | Om de hoek | Commando's | Vier richtingen, kristallen oprapen | 6 |
-| 3 | Kristallenjacht | Commando's | Route plannen (sequentie), `move_left()` | 10 |
-| 4 | Spring! | Commando's | `jump_right()`, gaten vermijden | 4 |
-| 5 | Grote stappen | Argumenten | Een getal als argument: `move_right(8)` | 3 |
-| 6 | Het slakkenhuis | Argumenten | Vakjes tellen, argumenten gebruiken | 7 |
-| 7 | De trap | For-lussen | `for i in range(4):` en inspringen | 4 |
-| 8 | De gatenrij | For-lussen | Een patroon herkennen en herhalen | 4 |
-| 9 | De kristalkam | For-lussen | Lus met meerdere commando's en argumenten | 4 |
-| 10 | Meet de gang | Variabelen | Variabele maken: `afstand = distance_right()` – 3 kaarten | 4 |
-| 11 | De groeiende trap | Variabelen | Variabele veranderen: `stap = stap + 1` in een lus | 5 |
-| 12 | Dubbel zo ver | Variabelen | Rekenen met variabelen: `afstand * 2` – 3 kaarten | 4 |
-| 13 | Springen of lopen? | If / else | `if hole_right(): … else: …` – 3 kaarten | 5 |
-| 14 | Links of rechts? | If / else | Sensor `wall_left()` – 2 kaarten | 5 |
-| 15 | Hoe ver nog? | While | `while not at_exit():` – 3 kaarten met andere lengte | 2 |
-| 16 | Gaten onderweg | While | `if` binnen `while`, dubbele inspringing – 3 kaarten | 5 |
-| 17 | De trap op | While | `while` + `if wall_right()` – 3 verschillende trappen | 5 |
-| 18 | Rotsen beklimmen | Functies | Eigen commando maken met `def klim():` | 10 |
-| 19 | Bergen van elke maat | Functies | Functie met parameter: `def berg(hoogte):` | 8 |
+| 1 | Eerste stappen | 1 Commando's en argumenten | Een commando schrijven: naam + haakjes, één per regel | 4 regels |
+| 2 | Om de hoek | 1 | Vier richtingen, kristallen oprapen | 6 |
+| 3 | Kristallenjacht | 1 | Route plannen (sequentie), `move_left()` | 10 |
+| 4 | Spring! | 1 | `jump_right()`, gaten vermijden | 4 |
+| 5 | Grote stappen | 1 | Een getal als argument: `move_right(8)` | 3 |
+| 6 | Het slakkenhuis | 1 | Vakjes tellen, argumenten gebruiken | 7 |
+| 7 | ✍️ Zelf aan de slag | 1 | Commando's met argumenten zelf typen | 4 |
+| 8 | 🔥 De grote grot | 1 | Lange route plannen, `jump_left()` | 14 |
+| 9 | De trap | 2 For-lussen | `for i in range(4):` en inspringen | 4 |
+| 10 | De gatenrij | 2 | Een patroon herkennen en herhalen | 4 |
+| 11 | De kristalkam | 2 | Lus met meerdere commando's en argumenten | 4 |
+| 12 | ✍️ Zelf: de waterval | 2 | Zelf een for-lus typen | 4 |
+| 13 | 🔥 Lus in een lus | 2 | Geneste for-lussen | 5 |
+| 14 | Meet de gang | 3 Variabelen | Variabele maken: `afstand = distance_right()` – 3 kaarten | 4 |
+| 15 | De groeiende trap | 3 | Variabele veranderen: `stap = stap + 1` in een lus | 5 |
+| 16 | Dubbel zo ver | 3 | Rekenen met variabelen: `afstand * 2` – 3 kaarten | 4 |
+| 17 | ✍️ Zelf: de muurtrap | 3 | Zelf een variabele maken en gebruiken – 3 kaarten | 4 |
+| 18 | 🔥 De krimpende trap | 3 | Variabele in `range()`, `stap = stap - 1` – 3 kaarten | 5 |
+| 19 | Springen of lopen? | 4 If / else | `if hole_right(): … else: …` – 3 kaarten | 5 |
+| 20 | Links of rechts? | 4 | Sensor `wall_left()` – 2 kaarten | 5 |
+| 21 | ✍️ Zelf: boven of onder? | 4 | Zelf if/else typen – 2 kaarten | 6 |
+| 22 | 🔥 De driesprong | 4 | `elif` en `not` – 3 kaarten | 7 |
+| 23 | Hoe ver nog? | 5 While | `while not at_exit():` – 3 kaarten met andere lengte | 2 |
+| 24 | Gaten onderweg | 5 | `if` binnen `while`, dubbele inspringing – 3 kaarten | 5 |
+| 25 | De trap op | 5 | `while` + `if wall_right()` – 3 verschillende trappen | 5 |
+| 26 | ✍️ Zelf: tot aan de muur | 5 | Zelf twee while-lussen typen – 3 kaarten | 4 |
+| 27 | 🔥 De slimme verkenner | 5 | `while` met `if/elif/else` – 3 kaarten | 7 |
+| 28 | Rotsen beklimmen | 6 Functies | Eigen commando maken met `def klim():` | 10 |
+| 29 | Bergen van elke maat | 6 | Functie met parameter: `def berg(hoogte):` | 8 |
+| 30 | ✍️ Zelf: de trede-functie | 6 | Zelf een functie schrijven en aanroepen | 10 |
+| 31 | 🔥 Het gebergte | 6 | Functie met `while` en sensoren – 3 kaarten | 9 |
 
 Levels met variabelen, `if` en `while` worden getest op **meerdere varianten van de kaart**: de code moet op elke kaart werken,
 dus een vaste reeks commando's werkt niet. Na een geslaagde eerste kaart worden de andere kaarten snel nagespeeld.

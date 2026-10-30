@@ -77,14 +77,40 @@
     return ['#'.repeat(w), top, bottom, '#'.repeat(w)];
   }
 
+  /** Drie wegen onderaan een schacht: 'left', 'right' of 'down'. */
+  function threeWays(way) {
+    const rows = ['#######', '###H###', '###.###', '###*###'];
+    if (way === 'left') rows.push('#E..###', '#######', '#######', '#######');
+    if (way === 'right') rows.push('###..E#', '#######', '#######', '#######');
+    if (way === 'down') rows.push('###.###', '###.###', '###E###', '#######');
+    return rows;
+  }
+
+  /** Bergen met hoogtes hs: omhoog langs de rots, er 2 vakjes over, terug omlaag, 1 stap verder. */
+  function mountains(hs) {
+    let m = '', crystals = [], step = 0;
+    hs.forEach(h => {
+      m += 'U'.repeat(h) + 'RR' + 'D'.repeat(h) + 'R';
+      crystals.push(step + h + 1);
+      step += 2 * h + 3;
+    });
+    return pathMap(m, crystals);
+  }
+
+  /** Krimpende trap: treden van n, n-1, ..., 1 vakjes, telkens 1 omlaag. */
+  function shrinking(n) {
+    let m = '', crystals = [], step = 0;
+    for (let k = n; k >= 1; k--) { m += 'R'.repeat(k) + 'D'; step += k; crystals.push(step); step++; }
+    return pathMap(m, crystals);
+  }
+
   const chapters = [
-    { id: 1, icon: '👣', title: 'Hoofdstuk 1 – Commando\'s', sub: 'Geef je held één voor één opdrachten.' },
-    { id: 2, icon: '🔢', title: 'Hoofdstuk 2 – Argumenten', sub: 'Een getal tussen de haakjes: hoeveel stappen?' },
-    { id: 3, icon: '🔁', title: 'Hoofdstuk 3 – For-lussen', sub: 'Herhaal stukjes code zonder ze opnieuw te typen.' },
-    { id: 7, icon: '📦', title: 'Hoofdstuk 4 – Variabelen', sub: 'Onthoud een getal in een doosje met een naam.' },
-    { id: 4, icon: '🔀', title: 'Hoofdstuk 5 – Als … anders (if/else)', sub: 'Laat je held kijken en zelf beslissen.' },
-    { id: 5, icon: '♾️', title: 'Hoofdstuk 6 – While-lussen', sub: 'Herhaal zolang iets waar is.' },
-    { id: 6, icon: '🧩', title: 'Hoofdstuk 7 – Eigen functies (def)', sub: 'Maak je eigen commando\'s.' },
+    { id: 1, icon: '👣', title: 'Hoofdstuk 1 – Commando\'s en argumenten', sub: 'Geef je held opdrachten, met een getal tussen de haakjes voor grote stappen.' },
+    { id: 3, icon: '🔁', title: 'Hoofdstuk 2 – For-lussen', sub: 'Herhaal stukjes code zonder ze opnieuw te typen.' },
+    { id: 7, icon: '📦', title: 'Hoofdstuk 3 – Variabelen', sub: 'Onthoud een getal in een doosje met een naam.' },
+    { id: 4, icon: '🔀', title: 'Hoofdstuk 4 – Als … anders (if/else)', sub: 'Laat je held kijken en zelf beslissen.' },
+    { id: 5, icon: '♾️', title: 'Hoofdstuk 5 – While-lussen', sub: 'Herhaal zolang iets waar is.' },
+    { id: 6, icon: '🧩', title: 'Hoofdstuk 6 – Eigen functies (def)', sub: 'Maak je eigen commando\'s.' },
   ];
 
   const MOVES = ['move_right()', 'move_left()', 'move_up()', 'move_down()'];
@@ -171,7 +197,7 @@
       ]],
     },
     {
-      id: 'c5', chapter: 2, title: 'Grote stappen',
+      id: 'c5', chapter: 1, title: 'Grote stappen',
       story: 'Een lange gang. Al die move_right()-regels worden wel erg veel typwerk…',
       goal: 'Raap het kristal op en ga naar de uitgang in <b>maximaal 3 regels</b>.',
       concept: {
@@ -192,7 +218,7 @@
       ]],
     },
     {
-      id: 'c6', chapter: 2, title: 'Het slakkenhuis',
+      id: 'c6', chapter: 1, title: 'Het slakkenhuis',
       story: 'Deze gang draait als een slakkenhuis naar binnen.',
       goal: 'Raap de 2 kristallen op en vind de uitgang in het midden. Bonus: <b>maximaal 7 regels</b>.',
       concept: {
@@ -214,6 +240,49 @@
         '#.#######.#',
         '#.........#',
         '###########',
+      ]],
+    },
+    {
+      id: 'c20', chapter: 1, title: 'Zelf aan de slag', selfWrite: true,
+      story: 'Nu ben jij de programmeur: geen knoppen om op te klikken, je typt alles zelf.',
+      goal: 'Raap het kristal en bereik de uitgang. Bonus: <b>maximaal 4 regels</b>.',
+      concept: {
+        title: 'Typ alles zelf',
+        html: 'Je kent al: <code>move_right</code>, <code>move_left</code>, <code>move_up</code>, <code>move_down</code> (met een getal tussen de haakjes) en <code>jump_right</code>. Let op: haakjes <code>()</code> niet vergeten en alles met kleine letters.',
+      },
+      commands: [],
+      starter: '',
+      maxLines: 4,
+      hints: ['Tel eerst hoeveel vakjes Kai naar rechts moet tot vlak voor het gat.', 'Stappen, springen, naar beneden, en dan naar links naar de uitgang.'],
+      maps: [[
+        '#########',
+        '#H..O*###',
+        '#####.###',
+        '##E...###',
+        '#########',
+      ]],
+    },
+    {
+      id: 'c21', chapter: 1, title: 'De grote grot', challenge: true,
+      story: 'Een enorme grot met kristallen in alle hoeken, gaten en een verborgen gangetje. Plan je route goed!',
+      goal: 'Raap <b>alle 3 kristallen</b> en bereik de uitgang. Bonus: <b>maximaal 14 regels</b>.',
+      concept: {
+        title: 'Plan je route',
+        html: 'Je hebt ook <code>jump_left()</code>: springen naar links. Teken de route eerst in gedachten (of op papier): welk kristal haal je eerst, en hoe kom je terug?',
+        example: 'jump_left()',
+      },
+      commands: ['move_right(3)', 'move_left(3)', 'move_up(3)', 'move_down(3)', 'jump_right()', 'jump_left()'],
+      starter: '',
+      maxLines: 14,
+      hints: ['Begin bovenaan: naar rechts, over het gat springen, en helemaal naar rechts tot de gang naar beneden.', 'Onderaan ga je naar links tot onder het smalle gangetje, dan omhoog naar het kristal.', 'In het middelste gangetje: spring over het gat naar het laatste kristal, kom terug met <code>jump_left()</code>, en ga dan via beneden naar de uitgang.'],
+      maps: [[
+        '############',
+        '#H....O*...#',
+        '#.########.#',
+        '#.#*.O..*#.#',
+        '#.#.######.#',
+        '#E.........#',
+        '############',
       ]],
     },
     {
@@ -276,6 +345,35 @@
       ]],
     },
     {
+      id: 'c22', chapter: 3, title: 'Zelf: de waterval', selfWrite: true,
+      story: 'Een trap met gaten, die als een waterval naar beneden loopt.',
+      goal: 'Raap alle kristallen en bereik de uitgang. Bonus: <b>maximaal 4 regels</b> met een <code>for</code>-lus.',
+      concept: {
+        title: 'Typ de lus zelf',
+        html: 'Zoek het patroon dat telkens terugkomt en schrijf zelf een <code>for</code>-lus. Denk aan de <b>dubbelpunt</b> <code>:</code> na <code>range(...)</code> en aan het <b>inspringen</b> (Tab).',
+      },
+      commands: [],
+      starter: '',
+      maxLines: 4,
+      hints: ['Eén trede: 2 stappen naar rechts, springen, 1 omlaag.', 'Die trede komt 3 keer terug.'],
+      maps: [pathMap('RRJD' + 'RRJD' + 'RRJD', [3, 7, 11])],
+    },
+    {
+      id: 'c23', chapter: 3, title: 'Lus in een lus', challenge: true,
+      story: 'Elke verdieping heeft dezelfde rij gaten, en er zijn drie verdiepingen.',
+      goal: 'Raap alle kristallen en bereik de uitgang. Bonus: <b>maximaal 5 regels</b> — dat lukt alleen met een lus <i>in</i> een lus!',
+      concept: {
+        title: 'Geneste lussen',
+        html: 'Een lus mag binnen een andere lus staan. De binnenste lus springt nog 4 spaties verder in. Bij elke herhaling van de buitenste lus wordt de binnenste lus helemaal uitgevoerd.',
+        example: 'for i in range(3):\n    for j in range(2):\n        move_right()\n    move_down()',
+      },
+      commands: ['for i in range(3):\n    ', 'for j in range(2):\n    ', 'move_right()', 'jump_right()', 'move_down(2)'],
+      starter: '',
+      maxLines: 5,
+      hints: ['Op één verdieping: 2 keer (stap, spring). Daarna 2 omlaag.', 'De buitenste lus doet 3 verdiepingen. Daarin: een lus van 2 keer met stap + spring, en dan <code>move_down(2)</code>.'],
+      maps: [pathMap(('RJRJDD').repeat(3), [2, 4, 8, 10, 14, 16])],
+    },
+    {
       id: 'c17', chapter: 7, title: 'Meet de gang',
       story: 'Kai heeft een meetlint! De gang is telkens anders lang, en daarna moet Kai precies even ver terug.',
       goal: 'Raap het kristal en bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 4 regels</b>.',
@@ -323,6 +421,37 @@
       maps: [doubleBack(2), doubleBack(3), doubleBack(5)],
     },
     {
+      id: 'c24', chapter: 7, title: 'Zelf: de muurtrap', selfWrite: true,
+      story: 'Rechtdoor, omhoog en weer rechtdoor, telkens even ver. Maar hoe ver? Dat verschilt per kaart.',
+      goal: 'Bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 4 regels</b>.',
+      concept: {
+        title: 'Variabele zelf maken',
+        html: 'Meet met <code>distance_right()</code> en bewaar het getal in een variabele met een naam die je zelf kiest, bv. <code>lengte</code>. Een variabele maak je met één isgelijkteken <code>=</code>.',
+      },
+      commands: [],
+      starter: '',
+      maxLines: 4,
+      variantTip: 'meet de gang met <code>distance_right()</code> en onthoud het getal in een variabele.',
+      hints: ['De drie stukken (rechts, omhoog, rechts) zijn even lang als de eerste gang.', 'Eerst meten en bewaren, dan 3 keer stappen met die variabele.'],
+      maps: [pathMap('RRUURR', [2, 4]), pathMap('RRRUUURRR', [3, 6]), pathMap('RRRRRUUUUURRRRR', [5, 10])],
+    },
+    {
+      id: 'c25', chapter: 7, title: 'De krimpende trap', challenge: true,
+      story: 'Elke trede is één vakje korter dan de vorige. Hoe lang de eerste is, verschilt per kaart.',
+      goal: 'Raap alle kristallen en bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 5 regels</b>.',
+      concept: {
+        title: 'Variabele in range()',
+        html: 'Je mag een variabele ook in <code>range()</code> zetten: <code>for i in range(stap):</code> herhaalt zo vaak als het getal in <code>stap</code>. En <code>stap = stap - 1</code> maakt de variabele 1 kleiner.',
+        example: 'stap = distance_right()\nfor i in range(stap):\n    print(stap)',
+      },
+      commands: ['stap = distance_right()', 'for i in range(stap):\n    ', 'move_right(stap)', 'move_down()', 'stap = stap - 1'],
+      starter: '',
+      maxLines: 5,
+      variantTip: 'meet de eerste trede en laat de variabele telkens 1 kleiner worden.',
+      hints: ['Er zijn evenveel treden als de eerste trede lang is.', 'In de lus: <code>move_right(stap)</code>, <code>move_down()</code> en dan <code>stap = stap - 1</code>.'],
+      maps: [shrinking(3), shrinking(4), shrinking(5)],
+    },
+    {
       id: 'c10', chapter: 4, title: 'Springen of lopen?',
       story: 'De gaten liggen telkens op een andere plaats! Kai moet zelf kijken.',
       goal: 'Bereik de uitgang op <b>alle 3 kaarten</b> met dezelfde code. Bonus: <b>maximaal 5 regels</b>.',
@@ -358,6 +487,39 @@
         ['#######', '###H###', '###.###', '###*###', '#E..###', '#######'],
         ['#######', '###H###', '###.###', '###*###', '###..E#', '#######'],
       ],
+    },
+    {
+      id: 'c26', chapter: 4, title: 'Zelf: boven of onder?', selfWrite: true,
+      story: 'Aan het einde van de gang gaat de weg ofwel naar boven, ofwel naar beneden.',
+      goal: 'Bereik de uitgang op <b>beide kaarten</b>. Bonus: <b>maximaal 6 regels</b>.',
+      concept: {
+        title: 'if / else zelf typen',
+        html: 'Gebruik een sensor zoals <code>wall_up()</code> in een <code>if</code>. Vergeet de dubbelpunten na <code>if ...</code> en <code>else</code> niet, en spring in onder elk van beide.',
+      },
+      commands: [],
+      starter: '',
+      maxLines: 6,
+      hints: ['Ga eerst 3 vakjes naar rechts.', 'Is er boven een muur? Dan 2 naar beneden, anders 2 naar boven. Daarna nog 1 stap naar rechts (die regel springt niet in).'],
+      maps: [
+        ['#######', '####.E#', '####.##', '#H*..##', '#######'],
+        ['#######', '#H*..##', '####.##', '####.E#', '#######'],
+      ],
+    },
+    {
+      id: 'c27', chapter: 4, title: 'De driesprong', challenge: true,
+      story: 'Onderaan de schacht kan de uitgang links, rechts of recht naar beneden liggen.',
+      goal: 'Bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 7 regels</b>.',
+      concept: {
+        title: 'elif en not',
+        html: 'Met <code>elif</code> ("anders als") test je een tweede mogelijkheid. <code>not</code> draait waar en niet-waar om: <code>not wall_left()</code> is waar als er links <i>geen</i> muur is.',
+        example: 'if not wall_left():\n    move_left(2)\nelif not wall_right():\n    move_right(2)\nelse:\n    move_down(2)',
+      },
+      commands: ['move_down(3)', 'if not wall_left():\n    ', 'elif not wall_right():\n    ', 'else:\n    ', 'move_left(2)', 'move_right(2)', 'move_down(2)'],
+      starter: '',
+      maxLines: 7,
+      variantTip: 'kijk links en rechts met <code>wall_left()</code> en <code>wall_right()</code>, en gebruik <code>elif</code>.',
+      hints: ['Eerst 3 naar beneden. Daarna drie mogelijkheden: links open, rechts open, of geen van beide.', 'if … links open … elif … rechts open … else … naar beneden.'],
+      maps: [threeWays('left'), threeWays('right'), threeWays('down')],
     },
     {
       id: 'c12', chapter: 5, title: 'Hoe ver nog?',
@@ -409,6 +571,35 @@
       ],
     },
     {
+      id: 'c28', chapter: 5, title: 'Zelf: tot aan de muur', selfWrite: true,
+      story: 'Een gang naar rechts en dan naar beneden. Hoe lang? Dat verschilt per kaart.',
+      goal: 'Bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 4 regels</b>.',
+      concept: {
+        title: 'While zelf typen',
+        html: 'Twee <code>while</code>-lussen na elkaar: de eerste loopt zolang er rechts geen muur is, de tweede zolang er onder geen muur is. Sensoren: <code>wall_right()</code>, <code>wall_down()</code>, en <code>not</code> om om te draaien.',
+      },
+      commands: [],
+      starter: '',
+      maxLines: 4,
+      hints: ['<code>while not wall_right():</code> en daaronder ingesprongen één stap naar rechts.', 'Daarna (niet ingesprongen) net zo voor naar beneden.'],
+      maps: [pathMap('RRRDD', [3]), pathMap('RRRRRRDDDD', [6]), pathMap('RRDDDDD', [2])],
+    },
+    {
+      id: 'c29', chapter: 5, title: 'De slimme verkenner', challenge: true,
+      story: 'Gangen, gaten en schachten: elke kaart is anders. Kai moet bij elk vakje zelf beslissen.',
+      goal: 'Raap alle kristallen en bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 7 regels</b>.',
+      concept: {
+        title: 'Drie keuzes in een while',
+        html: 'Zolang Kai niet bij de uitgang is: is er rechts een gat? Springen. Is er rechts een muur? Dan gaat de weg naar beneden. Anders: een stap naar rechts. Gebruik <code>if</code>, <code>elif</code> en <code>else</code> in de <code>while</code>-lus.',
+        example: 'while not at_exit():\n    if hole_right():\n        jump_right()\n    elif wall_right():\n        ...',
+      },
+      commands: ['while not at_exit():\n    ', 'if hole_right():\n    ', 'elif wall_right():\n    ', 'else:\n    ', 'jump_right()', 'move_down()', 'move_right()'],
+      starter: '',
+      maxLines: 7,
+      hints: ['De volgorde van de tests is belangrijk: kijk eerst naar een gat, dan naar een muur.', 'Gat → <code>jump_right()</code>, muur → <code>move_down()</code>, anders → <code>move_right()</code>.'],
+      maps: [pathMap('RRJRDDRJRRDR', [3, 8, 11]), pathMap('RJDDDRRJRR', [2, 8]), pathMap('RRRDJDDRJDRR', [5, 9, 11])],
+    },
+    {
       id: 'c15', chapter: 6, title: 'Rotsen beklimmen',
       story: 'Grote rotsblokken versperren de weg. Kai moet er telkens op dezelfde manier overheen klimmen.',
       goal: 'Raap de kristallen en bereik de uitgang. Bonus: <b>maximaal 10 regels</b> — maak je eigen functie!',
@@ -442,6 +633,36 @@
       maxLines: 8,
       hints: ['Een berg: omhoog, naar rechts, omlaag, naar rechts — telkens even veel als de hoogte.', 'De bergen zijn 1, 3 en 2 hoog.'],
       maps: [pathMap('URDR' + 'UUURRRDDDRRR' + 'UURRDDRR', [1, 7, 18])],
+    },
+    {
+      id: 'c30', chapter: 6, title: 'Zelf: de trede-functie', selfWrite: true,
+      story: 'Dezelfde trede komt steeds terug, maar er zitten ook andere stukjes tussen. Een lus helpt hier niet, een functie wel!',
+      goal: 'Raap alle kristallen en bereik de uitgang. Bonus: <b>maximaal 10 regels</b>.',
+      concept: {
+        title: 'Functie zelf maken',
+        html: 'Schrijf zelf een functie met <code>def naam():</code> en ingesprongen regels eronder. Kies zelf een naam (kleine letters, geen spaties). Roep de functie daarna aan met <code>naam()</code>.',
+      },
+      commands: [],
+      starter: '',
+      maxLines: 10,
+      hints: ['Eén trede: 1 stap rechts, springen, 1 omlaag.', 'Volgorde: trede, trede, 2 stappen rechts, trede, 1 omlaag, trede.'],
+      maps: [pathMap('RJD' + 'RJD' + 'RR' + 'RJD' + 'D' + 'RJD', [2, 5, 10, 14])],
+    },
+    {
+      id: 'c31', chapter: 6, title: 'Het gebergte', challenge: true,
+      story: 'Drie bergen, maar op elke kaart zijn ze anders hoog. Kai moet zelf voelen hoe hoog hij moet klimmen.',
+      goal: 'Raap de kristallen en bereik de uitgang op <b>alle 3 kaarten</b>. Bonus: <b>maximaal 9 regels</b>.',
+      concept: {
+        title: 'Functie met while erin',
+        html: 'In een functie mag je ook lussen en sensoren gebruiken. Klim zolang er rechts een rots is, ga er 2 vakjes over, en daal zolang er onder geen muur is.',
+        example: 'def berg():\n    while wall_right():\n        move_up()\n    ...',
+      },
+      commands: ['def berg():\n    ', 'while wall_right():\n    ', 'while not wall_down():\n    ', 'move_up()', 'move_down()', 'move_right()', 'move_right(2)', 'berg()'],
+      starter: '',
+      maxLines: 9,
+      variantTip: 'laat Kai met <code>while</code> en sensoren voelen hoe hoog elke berg is.',
+      hints: ['In de functie: klimmen met <code>while wall_right():</code>, dan <code>move_right(2)</code>, dan dalen met <code>while not wall_down():</code>, en nog 1 stap naar rechts.', 'Roep de functie 3 keer aan, bv. met een for-lus.'],
+      maps: [mountains([1, 3, 2]), mountains([2, 2, 4]), mountains([3, 1, 1])],
     },
   ];
 

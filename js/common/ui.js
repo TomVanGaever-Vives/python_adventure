@@ -127,8 +127,11 @@
         if (p.bonus) cls.push('bonus');
         if (firstOpen && firstOpen.id === l.id) cls.push('next');
         if (l.free) cls.push('free');
+        if (l.challenge) cls.push('challenge');
+        if (l.selfWrite) cls.push('selfwrite');
         return el('button', { class: cls.join(' '), onclick: () => onPick(l.id), 'data-level': l.id, title: l.title }, [
           el('span', { class: 'tile-num', text: l.free ? '★' : String(n) }),
+          l.challenge ? el('span', { class: 'tile-badge', text: '🔥 uitdaging' }) : l.selfWrite ? el('span', { class: 'tile-badge', text: '✍️ zelf schrijven' }) : null,
           el('span', { class: 'tile-title', text: l.title }),
           el('span', { class: 'tile-stars', html: l.free ? 'vrij spelen' : ((p.done ? '<span class="star on">✔</span>' : '<span class="star">✔</span>') + (p.bonus ? '<span class="star on">★</span>' : '<span class="star">★</span>')) }),
         ]);
